@@ -1,0 +1,350 @@
+doctype html
+html
+  head
+    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='stylesheets/home.css', rel='stylesheet')
+    link(href='stylesheets/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+  body
+    script(src='javascripts/tempchart.js')
+    script(src='javascripts/chart.js')
+    #wrapper
+      nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          a.navbar-brand(href='dashboard') VSWB
+        ul.nav.navbar-right.top-nav
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              i.fa.fa-user
+              label #{user.user.username}
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#')
+                  i.fa.fa-fw.fa-user
+                  |  Profile
+              li
+                a(href='#')
+                  i.fa.fa-fw.fa-envelope
+                  |  Inbox
+              li
+                a(href='#')
+                  i.fa.fa-fw.fa-gear
+                  |  Settings
+              li.divider
+              li
+                a(href='#')
+                  i.fa.fa-fw.fa-power-off
+                  |  Log Out
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav.side-nav
+            li.active
+              a(href='dashboard')
+                i.fa.fa-fw.fa-dashboard
+                |  Dashboard
+            li
+              a(href='charts')
+                i.fa.fa-fw.fa-bar-chart-o
+                |  Charts
+            li
+              a(href='javascript:;', data-toggle='collapse', data-target='#demo')
+                i.fa.fa-fw.fa-arrows-v
+                | 							APIs
+                i.fa.fa-fw.fa-caret-down
+              ul#demo.collapse
+                li
+                  a(href='#') /api/rt/total
+                li
+                  a(href='#') /api/rt/inner
+                li
+                  a(href='#') /api/st/locallist
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header Air Conditon
+              ol.breadcrumb
+                li.active
+                  i.fa.fa-dashboard
+                  |  The whole country
+          .row
+            .col-lg-3.col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 서울
+                    .col-xs-4.text-right
+                      .huge 126
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            .col-lg-3.col-md-6
+              .panel.panel-green
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 경기
+                    .col-xs-4.text-right
+                      .huge 126
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            .col-lg-3.col-md-6
+              .panel.panel-yellow
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 부산
+                    .col-xs-4.text-right
+                      .huge 126
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            .col-lg-3.col-md-6
+              .panel.panel-red
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 대구
+                    .col-xs-4.text-right
+                      .huge 26
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            .col-lg-3.col-md-6
+              .panel.panel-red
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 강원
+                    .col-xs-4.text-right
+                      .huge 126
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            .col-lg-3.col-md-6
+              .panel.panel-red
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      // <i class="fa fa-comments fa-3x"></i>
+                      div 제주
+                    .col-xs-4.text-right
+                      .huge 126
+                      div 미세먼지
+                    .col-xs-5.text-right
+                      .huge 26
+                      div 초미세먼지
+                a(href='#')
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-bar-chart-o.fa-fw
+                    |  Local
+                .panel-body
+                  canvas#myChart
+                  script.
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myLineChart = new Chart(ctx, {
+                      type: 'line',
+                      data: data
+                    });
+                  //#morris-area-chart
+
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+          //
+            <div class="row">
+            <div class="col-lg-4">
+            <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> Donut Chart</h3>
+            </div>
+            <div class="panel-body">
+            <div id="morris-donut-chart"></div>
+            <div class="text-right">
+            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+            <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
+            </div>
+            <div class="panel-body">
+            <div class="list-group">
+            <a href="#" class="list-group-item">
+            <span class="badge">just now</span>
+            <i class="fa fa-fw fa-calendar"></i> Calendar updated
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">4 minutes ago</span>
+            <i class="fa fa-fw fa-comment"></i> Commented on a post
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">23 minutes ago</span>
+            <i class="fa fa-fw fa-truck"></i> Order 392 shipped
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">46 minutes ago</span>
+            <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">1 hour ago</span>
+            <i class="fa fa-fw fa-user"></i> A new user has been added
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">2 hours ago</span>
+            <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">yesterday</span>
+            <i class="fa fa-fw fa-globe"></i> Saved the world
+            </a>
+            <a href="#" class="list-group-item">
+            <span class="badge">two days ago</span>
+            <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
+            </a>
+            </div>
+            <div class="text-right">
+            <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+            <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
+            </div>
+            <div class="panel-body">
+            <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+            <th>Order #</th>
+            <th>Order Date</th>
+            <th>Order Time</th>
+            <th>Amount (USD)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td>3326</td>
+            <td>10/21/2013</td>
+            <td>3:29 PM</td>
+            <td>$321.33</td>
+            </tr>
+            <tr>
+            <td>3325</td>
+            <td>10/21/2013</td>
+            <td>3:20 PM</td>
+            <td>$234.34</td>
+            </tr>
+            <tr>
+            <td>3324</td>
+            <td>10/21/2013</td>
+            <td>3:03 PM</td>
+            <td>$724.17</td>
+            </tr>
+            <tr>
+            <td>3323</td>
+            <td>10/21/2013</td>
+            <td>3:00 PM</td>
+            <td>$23.71</td>
+            </tr>
+            <tr>
+            <td>3322</td>
+            <td>10/21/2013</td>
+            <td>2:49 PM</td>
+            <td>$8345.23</td>
+            </tr>
+            <tr>
+            <td>3321</td>
+            <td>10/21/2013</td>
+            <td>2:23 PM</td>
+            <td>$245.12</td>
+            </tr>
+            <tr>
+            <td>3320</td>
+            <td>10/21/2013</td>
+            <td>2:15 PM</td>
+            <td>$5663.54</td>
+            </tr>
+            <tr>
+            <td>3319</td>
+            <td>10/21/2013</td>
+            <td>2:13 PM</td>
+            <td>$943.45</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <div class="text-right">
+            <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+          // /.row
+        // /.container-fluid
+      // /#page-wrapper
+    // /#wrapper
+    // jQuery
+
+    script(src='javascripts/jquery.js')
+    script(src='javascripts/bootstrap.min.js')

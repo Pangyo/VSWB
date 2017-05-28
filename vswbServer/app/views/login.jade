@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title vswbServer login
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    head
+      meta(charset='utf-8')
+      title Login
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans:400,700')
+    #login
+      h1(align='right') Welcom to VSWB
+      form.login-form(action='/auth/login', method='post')
+        span.fontawesome-user-md
+        input#user.login-username-input(type='text', placeholder='Username', name='username' required)
+        span.fontawesome-lock
+        input.login-password-input(type='password', placeholder='Password', name='password' required)
+        input.login-guest-submit(type='submit', value='Guest')
+        input.login-login-submit(type='submit', value='Login')
