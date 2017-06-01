@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var citySchema = mongoose.Schema(
     {
         city: {
@@ -16,4 +15,7 @@ var citySchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Citys', citySchema);
+module.exports.GetCityCollection = function (cname) {
+    var name = 'Citys_' + cname;
+    return mongoose.model(name, citySchema);
+}

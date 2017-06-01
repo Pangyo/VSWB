@@ -86,7 +86,14 @@ function OnSaveCity(currentItem, localname) {
     var cityName = String(currentItem.cityName);
     var localName = String(localname);
 
-    City.findOne({
+    // get city collection name from currentTime
+    var collectionName = updated.split(" ");
+
+    // get city collection
+    var currentCityCollection = City.GetCityCollection(collectionName[0]);
+
+    // city key = [updateTime, CityName, LocalName]
+    currentCityCollection.findOne({
         $and: [
             { 'city.updated': updated },
             { 'city.cityname': cityName },
@@ -102,7 +109,8 @@ function OnSaveCity(currentItem, localname) {
             // already exist
             return true;
         } else {
-            var dataContent = new City();
+            // Make City Collection 
+            var dataContent = new City.GetCityCollection(collectionName[0])();
             dataContent.city.localname = String(localname);
             dataContent.city.updated = String(currentItem.dataTime);
             dataContent.city.cityname = String(currentItem.cityName);
