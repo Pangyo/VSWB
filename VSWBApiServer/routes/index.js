@@ -3,8 +3,8 @@
 const
     express = require('express'),
     router = express.Router(),
-    bot = require('./service/BotService'),
-    init = require('./service/init');
+    bot = require('../service/BotService'),
+    init = require('../service/init');
 
 let defaultButton;
 
