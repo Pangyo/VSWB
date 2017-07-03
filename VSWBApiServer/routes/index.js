@@ -3,8 +3,8 @@
 const
     express = require('express'),
     router = express.Router(),
-    bot = require('../service/botService'),
-    init = require('../service/init');
+    bot = require('./service/BotService'),
+    init = require('./service/init');
 
 let defaultButton;
 
@@ -12,8 +12,6 @@ console.log('APIs initialize');
 init.initAreaButton();
 
 let postMessage = (req, res) => {
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
     const _obj = {
         user_key: req.body.user_key,
         type: req.body.type,
@@ -102,14 +100,14 @@ router.get('/keyboard', (req, res) => {
     init.getMainButtonList((err, result) => {
         defaultButton = result;
 
-        var retrunVal = {
+        var returnVal = {
             type: 'buttons',
             buttons: result
         };
         res.set({
             'content-type': 'application/json'
-        }).send(JSON.stringify(retrunVal));
-        console.log(retrunVal);
+        }).send(JSON.stringify(returnVal));
+        console.log(returnVal);
     });
 });
 

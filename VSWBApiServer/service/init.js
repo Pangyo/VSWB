@@ -5,7 +5,7 @@ let initData;
 const DEFAULT_BUTTON = ["종합", "마지막검색"];
 
 init.initAreaButton = () => {
-    fs.readFile('AreaList.json', 'utf8', function(error, data) {
+    fs.readFile('./service/AreaList.json', 'utf8', function(error, data) {
         initData = JSON.parse(data);
         console.log("Init.initAreaButton SUCCESS!");
     });
