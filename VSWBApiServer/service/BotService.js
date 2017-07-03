@@ -1,33 +1,11 @@
-
 const request = require('request');
+const urlencode = require('urlencode');
 const url = 'http://127.0.0.1:5000';
+const fs = require('fs');
 
-const Bot = {};
+const bot = {};
 
-Bot.region = (content, callback) => {
-    
-    switch (content) {
-        case '종합':
-            console.log('종합 입력!');
-            Bot.total((err, result) => {
-                callback(err, result);
-            });
-            break;
-        case '경기 성남':
-            console.log('경기 입력!');
-            Bot.inner((err, result) => {
-                callback(err, result);
-            });
-            break;
-        case '제주':
-            callback(null, '제주 리턴 : 테스트중입니다.');
-            break;
-        default:
-            break;
-    }
-};
-
-Bot.total = (callback) => {
+bot.total = (callback) => {
     totalUrl = url + "/api/rt/total";
     request.get(totalUrl, (err, res, html) => {
         if (!err && res.statusCode === 200) {
@@ -57,12 +35,51 @@ Bot.total = (callback) => {
     });
 };
 
-Bot.inner = (callback) => {
-    innerUrl = url + "/api/rt/inner";
+bot.deatailSearch = (main, detail, callback) => {
+    innerUrl = url + "/api/rt/inner?localname=" + urlencode(main);
+    console.log(innerUrl);
     request.get(innerUrl, (err, res, html) => {
         if (!err && res.statusCode === 200) {
-            let resultList = JSON.parse(res.body).response.body[0].items[0].item[11];
-            let reuslt = resultList.cityName[0] + ":" + resultList.pm10Value[0] + getState(resultList.pm10Value[0]);
+            let detailRegion = JSON.parse(res.body).response.body[0].items[0].item;
+
+            for (var i in detailRegion) {
+                if (detailRegion[i].cityName[0] === detail) {
+                    bot.deatailParser(detailRegion[i], (err, reuslt) => {
+                        callback(null, reuslt);
+                    });
+                }
+            }
+        } else {
+            callback(err, null);
+        }
+    });
+};
+
+bot.deatailParser = (data, callback) => {
+    var detailData;
+    detailData = "현재시간 : ";
+    detailData += data.dataTime;
+    detailData += "\n도시이름 : ";
+    detailData += data.cityName;
+    detailData += "\n미세먼지 : ";
+    detailData += data.pm10Value;
+    detailData += getState(data.pm10Value);
+    detailData += "\n초미세먼지 : ";
+    detailData += data.pm25Value;
+    detailData += "\n오존 : ";
+    detailData += data.o3Value;
+    callback(null, detailData);
+};
+
+bot.locallist = (content, callback) => {
+    locallistUrl = url + "/api/st/locallist";
+    request.get(locallistUrl, (err, res, html) => {
+        if (!err && res.statusCode === 200) {
+            resultList = JSON.parse(res.body);
+            var reuslt = new Array;
+            for (var i in resultList) {
+                reuslt.push(resultList[i].name);
+            }
             callback(null, reuslt);
         } else {
             callback(err, null)
@@ -70,19 +87,16 @@ Bot.inner = (callback) => {
     });
 };
 
-function getState (content) {
-    if(content <= 30) {
+function getState(content) {
+    if (content <= 30) {
         return ("(좋음)");
-    }
-    else if(content <= 80) {
-        return("(보통)");
-    }
-    else if(content <= 150) {
-        return("(나쁨)");
-    }
-    else {
-        return("(매우나쁨)");
+    } else if (content <= 80) {
+        return ("(보통)");
+    } else if (content <= 150) {
+        return ("(나쁨)");
+    } else {
+        return ("(매우나쁨)");
     }
 };
 
-module.exports = Bot;
+module.exports = bot;

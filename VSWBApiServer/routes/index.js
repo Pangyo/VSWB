@@ -3,24 +3,13 @@
 const
     express = require('express'),
     router = express.Router(),
-    Bot = require('../service/BotService');
+    bot = require('../service/botService'),
+    init = require('../service/init');
 
-let defaultButton = {
-        "type": "buttons",
-        "buttons": ["종합", "경기 성남"]
-    };
+let defaultButton;
 
 console.log('APIs initialize');
-
-let getKeyboard = (req, res) => {   
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-//  res.json({
-//    "type" : "text"
-//  });
-    res.json(defaultButton);
-
-  return res;
-};
+init.initAreaButton();
 
 let postMessage = (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -31,30 +20,102 @@ let postMessage = (req, res) => {
         content: req.body.content
     };
 
-    Bot.region(_obj.content, (err, result) => {
-        if (!err) {
-            res.json(
-                {
-                    message: {text: result},
-                    "keyboard": defaultButton
+    if (_obj.content === "종합") {
+        console.log(defaultButton);
+        bot.total((err, result) => {
+            let massage = {
+                "message": {
+                    "text": result
+                },
+                "keyboard": {
+                    "type": "buttons",
+                    "buttons": defaultButton
+                }
+            };
+            res.set({
+                'content-type': 'application/json'
+            }).send(JSON.stringify(massage));
+            console.log(massage);
+        });
+    } else if (_obj.content === "마지막검색") {
+        let massage = {
+            "message": {
+                "text": "마지막 검색 내용이 없습니다."
+            },
+            "keyboard": {
+                "type": "buttons",
+                "buttons": defaultButton
+            }
+        };
+        res.set({
+            'content-type': 'application/json'
+        }).send(JSON.stringify(massage));
+        console.log(massage);
+    } else {
+        init.getMainButtonList((err, result) => {
+            if (result.indexOf(_obj.content) !== -1) {
+                init.getDetailButtonList(_obj.content, (err, result) => {
+                    let massage = {
+                        "message": {
+                            "text": '세부 지역을 골라주세요.'
+                        },
+                        "keyboard": {
+                            "type": "buttons",
+                            "buttons": result
+                        }
+                    };
+                    res.set({
+                        'content-type': 'application/json'
+                    }).send(JSON.stringify(massage));
+                    console.log(massage);
                 });
-        } else {
-            res.json({message: {text: '문제가 생겼습니다.'}});
-        }
-    });
-
-    return res;
+            } else {
+                init.getMainArea(_obj.content, (err, result) => {
+                    console.log("init.getMainArea");
+                    bot.deatailSearch(result, _obj.content, (err, result) => {
+                        let massage = {
+                            "message": {
+                                "text": result
+                            },
+                            "keyboard": {
+                                "type": "buttons",
+                                "buttons": defaultButton
+                            }
+                        };
+                        res.set({
+                            'content-type': 'application/json'
+                        }).send(JSON.stringify(massage));
+                        console.log(massage);
+                    });
+                });
+            }
+        });
+    }
 };
 
-router.get('/', function (req, res) {
-    res.render('index', {title: 'Express'});
+router.get('/', function(req, res) {
+    res.render('index', { title: 'Express' });
 });
 
-router.get('/keyboard', getKeyboard);
+router.get('/keyboard', (req, res) => {
+
+    init.getMainButtonList((err, result) => {
+        defaultButton = result;
+
+        var retrunVal = {
+            type: 'buttons',
+            buttons: result
+        };
+        res.set({
+            'content-type': 'application/json'
+        }).send(JSON.stringify(retrunVal));
+        console.log(retrunVal);
+    });
+});
 
 router.post('/message', postMessage);
 
-router.post('/friend', (req, res)=>{
+router.post('/friend', (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     const objFriend = {
         user_key: req.body.user_key,
@@ -63,7 +124,7 @@ router.post('/friend', (req, res)=>{
     console.log(objFriend);
 });
 
-router.delete('/friend', (req, res)=>{
+router.delete('/friend', (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     const objFriend = {
         user_key: req.body.user_key,
@@ -72,7 +133,7 @@ router.delete('/friend', (req, res)=>{
     console.log(objFriend);
 });
 
-router.delete('/chat_room', (req, res)=>{
+router.delete('/chat_room', (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     const objFriend = {
         user_key: req.body.user_key,
