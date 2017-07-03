@@ -101,12 +101,13 @@ router.get('/keyboard', (req, res) => {
         defaultButton = result;
 
         var returnVal = {
-            type: 'buttons',
-            buttons: result
+            "type": 'buttons',
+            "buttons": result
         };
         res.set({
             'content-type': 'application/json'
         }).send(JSON.stringify(returnVal));
+        console.log("keyboard SUCCESS");
         console.log(returnVal);
     });
 });
@@ -114,30 +115,30 @@ router.get('/keyboard', (req, res) => {
 router.post('/message', postMessage);
 
 router.post('/friend', (req, res) => {
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    const objFriend = {
-        user_key: req.body.user_key,
-    };
-    console.log("친구 추가");
-    console.log(objFriend);
+    const user_key = req.body.user_key;
+    console.log(user_key, "님이 채팅방에 참가했습니다.");
+
+    res.set({
+        'content-type': 'application/json'
+    }).send(JSON.stringify({ success: true }));
 });
 
 router.delete('/friend', (req, res) => {
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    const objFriend = {
-        user_key: req.body.user_key,
-    };
-    console.log("친구 삭제");
-    console.log(objFriend);
+    const user_key = req.body.user_key;
+    console.log(user_key, "님이 채팅방을 차단했습니다.");
+
+    res.set({
+        'content-type': 'application/json'
+    }).send(JSON.stringify({ success: true }));
 });
 
-router.delete('/chat_room', (req, res) => {
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    const objFriend = {
-        user_key: req.body.user_key,
-    };
-    console.log("채팅방 나가기");
-    console.log(objFriend);
+router.delete('/chat_room/:user_key', (req, res) => {
+    const user_key = req.params.user_key;
+    console.log(user_key, "님이 채팅방에서 나갔습니다.");
+
+    res.set({
+        'content-type': 'application/json'
+    }).send(JSON.stringify({ success: true }));
 });
 
 
